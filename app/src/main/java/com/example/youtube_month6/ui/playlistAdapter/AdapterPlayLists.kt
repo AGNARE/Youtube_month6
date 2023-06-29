@@ -36,7 +36,7 @@ class AdapterPlayLists() : RecyclerView.Adapter<AdapterPlayLists.PlayListsViewHo
 
    inner class PlayListsViewHolder(private val binding: ItemPlaylistsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: PlayListsModel.Item) {
-            binding.ivPlaylist.load(item.snippet.thumbnails.default.url)
+            binding.ivPlaylist.load(item.snippet.thumbnails.standard.url)
             binding.tvTitle.text = item.snippet.title
             binding.tvVideoSeries.text = "${item.contentDetails.itemCount} video"
         }

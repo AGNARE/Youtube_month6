@@ -1,4 +1,4 @@
-package com.example.youtube_month6.viewModel
+package com.example.youtube_month6.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +21,7 @@ class PlaylistViewModel : BaseViewModel() {
 
     private fun getPlaylists(): LiveData<PlayListsModel> {
         val data = MutableLiveData<PlayListsModel>()
-        apiService.getPlaylists(BuildConfig.API_KEY, Constants.CHANNEL_ID, Constants.PART)
+        apiService.getPlaylists(Constants.PART, Constants.CHANNEL_ID, BuildConfig.API_KEY)
             .enqueue(object : retrofit2.Callback<PlayListsModel> {
                 override fun onResponse(
                     call: Call<PlayListsModel>,
@@ -33,7 +33,7 @@ class PlaylistViewModel : BaseViewModel() {
                 }
 
                 override fun onFailure(call: Call<PlayListsModel>, t: Throwable) {
-                    print(t.stackTrace)
+                    println(t.stackTrace)
                 }
             })
         return data

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.youtube_month6.core.base.BaseActivity
 import com.example.youtube_month6.databinding.ActivityPlaylistsBinding
 import com.example.youtube_month6.ui.playlistAdapter.AdapterPlayLists
-import com.example.youtube_month6.viewModel.PlaylistViewModel
 
 class PlayListsActivity :
     BaseActivity<ActivityPlaylistsBinding, PlaylistViewModel>() {
@@ -29,8 +28,4 @@ class PlayListsActivity :
             Toast.makeText(this, it.kind.toString(), Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
-
 }

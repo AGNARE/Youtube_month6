@@ -5,6 +5,7 @@ import com.example.youtube_month6.repository.Repository
 
 class App: Application() {
 
-    companion object{}
-    val repository = Repository()
+    companion object {
+        val repository = Repository()
+    }
 }

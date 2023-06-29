@@ -16,9 +16,6 @@ class Repository {
 
     private val apiService: ApiService = RetrofitClient.create()
 
-    fun playlists(): LiveData<Resource<PlayListsModel>>{
-        return  getPlayLists()
-    }
 
     fun getPlayLists(): LiveData<Resource<PlayListsModel>> {
         val data = MutableLiveData<Resource<PlayListsModel>>()
@@ -28,7 +25,6 @@ class Repository {
             part = Constants.PART,
             channelId = Constants.CHANNEL_ID,
             apiKey = BuildConfig.API_KEY,
-            maxResults = 10,
         ).enqueue(object : Callback<PlayListsModel> {
             override fun onResponse(
                 call: Call<PlayListsModel>,

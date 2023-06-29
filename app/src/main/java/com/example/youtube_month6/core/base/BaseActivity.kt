@@ -3,6 +3,7 @@ package com.example.youtube_month6.core.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.example.youtube_month6.BuildConfig
 
 abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel> : AppCompatActivity() {
 
