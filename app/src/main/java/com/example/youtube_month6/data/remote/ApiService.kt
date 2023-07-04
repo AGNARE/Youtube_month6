@@ -15,4 +15,14 @@ interface ApiService {
         @Query("key") apiKey: String,
         @Query("maxResults") maxResults: Int = 10
     ):Call<PlayListsModel>
+
+    @GET("playlistItems")
+    fun getPlaylistItems(
+        @Query("key") apiKey: String,
+        @Query("part") part: String,
+        @Query("id") id: String,
+        @Query("maxResults") maxResults: Int = 20
+    ):Call<PlayListsModel>
+
+
 }

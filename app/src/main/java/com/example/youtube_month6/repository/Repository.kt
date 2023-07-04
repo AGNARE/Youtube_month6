@@ -16,6 +16,31 @@ class Repository {
 
     private val apiService: ApiService = RetrofitClient.create()
 
+    fun getPlaylistItems(id: String?): LiveData<Resource<PlayListsModel>> {
+        val dataItems = MutableLiveData<Resource<PlayListsModel>>()
+
+        dataItems.value = Resource.loading()
+        apiService.getPlaylistItems(
+            apiKey = BuildConfig.API_KEY,
+            part = Constants.PART,
+            id = id!!,
+        ).enqueue(object : Callback<PlayListsModel> {
+            override fun onResponse(
+                call: Call<PlayListsModel>,
+                response: Response<PlayListsModel>
+            ) {
+                if (response.isSuccessful) {
+                    dataItems.value = Resource.success(response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<PlayListsModel>, t: Throwable) {
+                Resource.error(t.message.toString(), null)
+            }
+        })
+        return dataItems
+
+    }
 
     fun getPlayLists(): LiveData<Resource<PlayListsModel>> {
         val data = MutableLiveData<Resource<PlayListsModel>>()

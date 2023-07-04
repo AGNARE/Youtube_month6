@@ -1,4 +1,4 @@
-package com.example.youtube_month6.ui.playlistAdapter
+package com.example.youtube_month6.ui.playlist
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,15 +8,21 @@ import coil.load
 import com.example.youtube_month6.data.model.PlayListsModel
 import com.example.youtube_month6.databinding.ItemPlaylistsBinding
 
-class AdapterPlayLists() : RecyclerView.Adapter<AdapterPlayLists.PlayListsViewHolder>() {
-
-    @SuppressLint("NotifiDataSetChanged")
-    fun setList(liste: List<PlayListsModel.Item>){
-        this.list = liste as ArrayList<PlayListsModel.Item>
-        notifyDataSetChanged()
-    }
+class AdapterPlayLists(private val onCLick: (PlayListsModel.Item) -> Unit) :
+    RecyclerView.Adapter<AdapterPlayLists.PlayListsViewHolder>() {
 
     private var list = arrayListOf<PlayListsModel.Item>()
+
+    @SuppressLint("NotifiDataSetChanged")
+    fun setList(lists: List<PlayListsModel.Item>) {
+        this.list = lists as ArrayList<PlayListsModel.Item>
+        val previousSize = list.size
+        list.clear()
+        list.addAll(lists)
+        val newSize = list.size
+        if (previousSize == newSize) notifyItemRangeChanged(0, newSize)
+        else notifyItemRangeChanged(0, newSize)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayListsViewHolder {
         return PlayListsViewHolder(
@@ -34,12 +40,16 @@ class AdapterPlayLists() : RecyclerView.Adapter<AdapterPlayLists.PlayListsViewHo
 
     override fun getItemCount() = list.size
 
-   inner class PlayListsViewHolder(private val binding: ItemPlaylistsBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PlayListsViewHolder(private val binding: ItemPlaylistsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: PlayListsModel.Item) {
             binding.ivPlaylist.load(item.snippet.thumbnails.standard.url)
             binding.tvTitle.text = item.snippet.title
             binding.tvVideoSeries.text = "${item.contentDetails.itemCount} video"
-        }
 
+            itemView.setOnClickListener {
+                onCLick(item)
+            }
+        }
     }
 }
