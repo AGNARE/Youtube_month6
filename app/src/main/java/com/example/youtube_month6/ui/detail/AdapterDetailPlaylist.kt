@@ -13,7 +13,6 @@ class AdapterDetailPlaylist :
     private var list = arrayListOf<PlayListsModel.Item>()
 
     fun setList(lists: List<PlayListsModel.Item>){
-        this.list = list
         val size = list.size
         list.clear()
         list.addAll(lists)
@@ -43,6 +42,7 @@ class AdapterDetailPlaylist :
         fun onBind(item: PlayListsModel.Item) {
             binding.tvTitle.text = item.snippet.title
             binding.ivPlaylistVideo.load(item.snippet.thumbnails.standard.url)
+//            binding.tvTimeOfVideo.text = item.contentDetails.itemCount.toString()
         }
     }
 }

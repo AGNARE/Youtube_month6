@@ -13,9 +13,8 @@ class AdapterPlayLists(private val onCLick: (PlayListsModel.Item) -> Unit) :
 
     private var list = arrayListOf<PlayListsModel.Item>()
 
-    @SuppressLint("NotifiDataSetChanged")
     fun setList(lists: List<PlayListsModel.Item>) {
-        this.list = lists as ArrayList<PlayListsModel.Item>
+//        this.list = lists as ArrayList<PlayListsModel.Item>
         val previousSize = list.size
         list.clear()
         list.addAll(lists)

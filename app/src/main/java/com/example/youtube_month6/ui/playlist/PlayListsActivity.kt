@@ -9,6 +9,7 @@ import com.example.youtube_month6.core.network.Resource.Status.*
 import com.example.youtube_month6.data.model.PlayListsModel
 import com.example.youtube_month6.databinding.ActivityPlaylistsBinding
 import com.example.youtube_month6.internet.ConnectionInternet
+import com.example.youtube_month6.ui.detail.DetailPlaylistActivity
 
 class PlayListsActivity: BaseActivity<ActivityPlaylistsBinding, PlaylistViewModel>() {
 
@@ -57,10 +58,11 @@ class PlayListsActivity: BaseActivity<ActivityPlaylistsBinding, PlaylistViewMode
     }
 
     private fun onClick(item: PlayListsModel.Item) {
-        val intent = Intent(this, PlayListsActivity::class.java)
+        val intent = Intent(this, DetailPlaylistActivity::class.java)
         intent.putExtra("title", item.snippet.title)
         intent.putExtra("desc", item.snippet.description)
         intent.putExtra("id", item.id)
+        intent.putExtra("count", item.contentDetails.itemCount)
         startActivity(intent)
     }
 

@@ -8,7 +8,7 @@ import com.example.youtube_month6.data.model.PlayListsModel
 
 class DetailViewModel: BaseViewModel() {
 
-    fun playlistItems(id: String?): LiveData<Resource<PlayListsModel>> {
+    fun playlistItems(id: String): LiveData<Resource<PlayListsModel>> {
         return repository.getPlaylistItems(id)
     }
 }

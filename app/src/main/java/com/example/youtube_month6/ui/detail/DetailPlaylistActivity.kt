@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.example.youtube_month6.R
 import com.example.youtube_month6.core.base.BaseActivity
+import com.example.youtube_month6.core.network.Resource
 import com.example.youtube_month6.databinding.ActivityDetailPlaylistBinding
 import com.example.youtube_month6.databinding.ActivityPlaylistsBinding
 import com.example.youtube_month6.ui.playlist.PlaylistViewModel
@@ -25,17 +26,27 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
     override fun setUI() {
         super.setUI()
         val title = intent.getStringExtra("title")
-        val desc = intent.getBooleanArrayExtra("desc")
-        val id = intent.getBooleanArrayExtra("id")
+        val desc = intent.getStringExtra("desc")
+        val id = intent.getStringExtra("id")
+        val count = intent.getIntExtra("count",0)
 
-        viewModel.playlistItems(id?.toString()).observe(this){
-            it.data?.let { it1 -> adapter.setList(it1.items) }
-            binding.tvTitle.text = title
-            binding.tvDesc.text = desc.toString()
-        }
-        adapter = AdapterDetailPlaylist()
-        binding.recyclerView.adapter = adapter
+        viewModel.playlistItems(id ?: "").observe(this) {
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    it.data?.let { it1 -> adapter.setList(it1.items) }
+                    binding.tvTitle.text = title
+                    binding.tvDesc.text = desc
+                    binding.tvVideos.text = "$count video series"
+                }
+                Resource.Status.ERROR -> {}
+                Resource.Status.LOADING -> {}
+
+            }
+
     }
+    adapter = AdapterDetailPlaylist()
+    binding.recyclerView.adapter = adapter
+}
 
 
 }
