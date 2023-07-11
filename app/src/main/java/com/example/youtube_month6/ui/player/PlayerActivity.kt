@@ -62,7 +62,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
 
     override fun setUI() {
         super.setUI()
-        lifecycle.addObserver(binding.videoView);
+        lifecycle.addObserver(binding.videoView)
         binding.videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 intent.getStringExtra("id1")?.let { youTubePlayer.loadVideo(it, 0f) }
