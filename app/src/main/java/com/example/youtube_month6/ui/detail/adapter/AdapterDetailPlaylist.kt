@@ -1,4 +1,4 @@
-package com.example.youtube_month6.ui.detail
+package com.example.youtube_month6.ui.detail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.youtube_month6.data.model.PlayListsModel
 import com.example.youtube_month6.databinding.ItemVideosPlaylistBinding
+import com.example.youtube_month6.ui.detail.DetailPlaylistActivity
+import kotlin.reflect.KFunction0
 
-class AdapterDetailPlaylist :
+class AdapterDetailPlaylist(private val onClick: (PlayListsModel.Item) -> Unit):
     RecyclerView.Adapter<AdapterDetailPlaylist.DetailPlayListViewHolder>() {
 
     private var list = arrayListOf<PlayListsModel.Item>()
@@ -37,12 +39,16 @@ class AdapterDetailPlaylist :
 
     override fun getItemCount() = list.size
 
-    class DetailPlayListViewHolder(private val binding: ItemVideosPlaylistBinding) :
+   inner class DetailPlayListViewHolder(private val binding: ItemVideosPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: PlayListsModel.Item) {
             binding.tvTitle.text = item.snippet.title
             binding.ivPlaylistVideo.load(item.snippet.thumbnails.standard.url)
 //            binding.tvTimeOfVideo.text = item.contentDetails.itemCount.toString()
+
+            itemView.setOnClickListener {
+                onClick(item)
+            }
         }
     }
 }

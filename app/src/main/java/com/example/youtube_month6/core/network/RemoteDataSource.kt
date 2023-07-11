@@ -12,7 +12,7 @@ class RemoteDataSource(private val apiService: ApiService) : BaseDataSource() {
             part = Constants.PART,
             channelId = Constants.CHANNEL_ID,
             apiKey = BuildConfig.API_KEY,
-            maxResults = 10
+            maxResults = 20
         )
     }
 
@@ -20,7 +20,16 @@ class RemoteDataSource(private val apiService: ApiService) : BaseDataSource() {
         apiService.getPlaylistItem(
             key = BuildConfig.API_KEY,
             part = Constants.PART,
-            playlistId = id
+            playlistId = id,
+            maxResults = 100
+        )
+    }
+
+    suspend fun getVideos(id: String?) = getResult {
+        apiService.getVideos(
+            key = BuildConfig.API_KEY,
+            part = Constants.PART,
+            id!!
         )
     }
 }

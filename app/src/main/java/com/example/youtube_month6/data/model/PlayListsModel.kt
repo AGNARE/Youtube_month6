@@ -15,7 +15,8 @@ data class PlayListsModel(
         val snippet: Snippet
     ) {
         data class ContentDetails(
-            val itemCount: Int
+            val itemCount: Int,
+            val videoId: String,
         )
 
         data class Snippet(
@@ -77,3 +78,4 @@ data class PlayListsModel(
         val totalResults: Int
     )
 }
+

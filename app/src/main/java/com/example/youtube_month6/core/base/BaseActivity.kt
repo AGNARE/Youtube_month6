@@ -30,6 +30,5 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel> : AppCompatAct
 
     open fun checkInternet() {} // внутри этого метода проверяем интернет
 
-
 }
 

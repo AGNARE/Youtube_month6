@@ -1,26 +1,26 @@
 package com.example.youtube_month6.ui.detail
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
-import com.example.youtube_month6.R
+import android.view.View
 import com.example.youtube_month6.core.base.BaseActivity
 import com.example.youtube_month6.core.network.Resource
+import com.example.youtube_month6.data.model.PlayListsModel
 import com.example.youtube_month6.databinding.ActivityDetailPlaylistBinding
-import com.example.youtube_month6.databinding.ActivityPlaylistsBinding
-import com.example.youtube_month6.ui.playlist.PlaylistViewModel
+import com.example.youtube_month6.internet.ConnectionInternet
+import com.example.youtube_month6.ui.detail.adapter.AdapterDetailPlaylist
+import com.example.youtube_month6.ui.player.PlayerActivity
+import com.example.youtube_month6.ui.playlist.PlayListsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, DetailViewModel>() {
 
-    private lateinit var adapter: AdapterDetailPlaylist
+    private  var adapter = AdapterDetailPlaylist(this::onClick)
+    private lateinit var connectionInternet: ConnectionInternet
+
+    override val viewModel: DetailViewModel by viewModel()
 
     override fun inflateViewBinding(): ActivityDetailPlaylistBinding {
         return ActivityDetailPlaylistBinding.inflate(layoutInflater)
-    }
-
-    override val viewModel: DetailViewModel by lazy {
-        ViewModelProvider(this)[DetailViewModel::class.java]
     }
 
     override fun setUI() {
@@ -28,7 +28,7 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
         val title = intent.getStringExtra("title")
         val desc = intent.getStringExtra("desc")
         val id = intent.getStringExtra("id")
-        val count = intent.getIntExtra("count",0)
+        val count = intent.getIntExtra("count", 0)
 
         viewModel.playlistItems(id ?: "").observe(this) {
             when (it.status) {
@@ -40,13 +40,41 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
                 }
                 Resource.Status.ERROR -> {}
                 Resource.Status.LOADING -> {}
-
             }
-
+        }
+        binding.recyclerView.adapter = adapter
     }
-    adapter = AdapterDetailPlaylist()
-    binding.recyclerView.adapter = adapter
-}
 
+    override fun checkInternet() {
+        super.checkInternet()
+        connectionInternet = ConnectionInternet(this)
+        connectionInternet.observe(this) { isConnection ->
+            if (isConnection) {
+                binding.btnTryAgain.setOnClickListener {
+                    binding.noInternet.visibility = View.GONE
+                    binding.yesInternet.visibility = View.VISIBLE
+                }
+            } else {
+                binding.noInternet.visibility = View.VISIBLE
+                binding.yesInternet.visibility = View.GONE
+            }
+        }
+    }
+
+    override fun initClickListener() {
+        super.initClickListener()
+        binding.backTv.setOnClickListener{
+            val intent = Intent(this@DetailPlaylistActivity,PlayListsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun onClick(item: PlayListsModel.Item?){
+        val intent = Intent(this@DetailPlaylistActivity, PlayerActivity::class.java)
+        intent.putExtra("id1",item?.contentDetails?.videoId)
+        intent.putExtra("title1",item?.snippet?.title)
+        intent.putExtra("desc1",item?.snippet?.description)
+        startActivity(intent)
+    }
 
 }

@@ -1,30 +1,29 @@
 package com.example.youtube_month6.ui.playlist
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.youtube_month6.core.base.BaseActivity
 import com.example.youtube_month6.core.network.Resource.Status.*
 import com.example.youtube_month6.data.model.PlayListsModel
 import com.example.youtube_month6.databinding.ActivityPlaylistsBinding
 import com.example.youtube_month6.internet.ConnectionInternet
 import com.example.youtube_month6.ui.detail.DetailPlaylistActivity
+import com.example.youtube_month6.ui.playlist.adapter.AdapterPlayLists
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlayListsActivity: BaseActivity<ActivityPlaylistsBinding, PlaylistViewModel>() {
+class PlayListsActivity : BaseActivity<ActivityPlaylistsBinding, PlaylistViewModel>() {
 
     private var adapter = AdapterPlayLists(this::onClick)
     private lateinit var connectionInternet: ConnectionInternet
 
-    override val viewModel: PlaylistViewModel by lazy {
-        ViewModelProvider(this)[PlaylistViewModel::class.java]
-    }
+    override val viewModel: PlaylistViewModel by viewModel()
 
     override fun inflateViewBinding() = ActivityPlaylistsBinding.inflate(layoutInflater)
 
     override fun setupLiveData() {
         super.setupLiveData()
-
         viewModel.playlists().observe(this) {
             when (it.status) {
                 SUCCESS -> {
@@ -35,7 +34,8 @@ class PlayListsActivity: BaseActivity<ActivityPlaylistsBinding, PlaylistViewMode
                     Toast.makeText(this, it.data?.kind ?: "null", Toast.LENGTH_SHORT).show()
                 }
 
-                ERROR -> Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+                ERROR ->{ Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    Log.e("ololo", "setupLiveData: ${it.message}", )}
                 LOADING -> Toast.makeText(this, "loading", Toast.LENGTH_SHORT).show()
             }
         }
@@ -65,5 +65,4 @@ class PlayListsActivity: BaseActivity<ActivityPlaylistsBinding, PlaylistViewMode
         intent.putExtra("count", item.contentDetails.itemCount)
         startActivity(intent)
     }
-
 }
