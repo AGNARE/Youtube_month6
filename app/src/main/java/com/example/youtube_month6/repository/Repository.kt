@@ -1,8 +1,6 @@
 package com.example.youtube_month6.repository
 
-import android.provider.MediaStore
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.liveData
 import com.example.youtube_month6.core.network.RemoteDataSource
 import com.example.youtube_month6.core.network.Resource
@@ -27,7 +25,7 @@ class Repository(private val remoteDataSource: RemoteDataSource) {
         }
     }
 
-    fun getVideos(id: String?): LiveData<Resource<PlayListsModel>> {
+    fun getVideos(id: String): LiveData<Resource<PlayListsModel>> {
         return liveData(Dispatchers.IO) {
             emit(Resource.loading())
             val data = remoteDataSource.getVideos(id)
