@@ -8,7 +8,7 @@ import com.example.youtube_month6.repository.Repository
 
 class PlayerViewModel(private val repository: Repository): BaseViewModel() {
 
-    fun getVideos(id: String?): LiveData<Resource<PlayListsModel>> {
-        return repository.getVideos(id!!)
+    fun getVideos(id: String): LiveData<Resource<PlayListsModel>> {
+        return repository.getVideos(id)
     }
 }

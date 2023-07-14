@@ -64,8 +64,7 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
     override fun initClickListener() {
         super.initClickListener()
         binding.backTv.setOnClickListener{
-            val intent = Intent(this@DetailPlaylistActivity,PlayListsActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.youtube_month6.core.di
 
-import com.example.youtube_month6.core.network.RemoteDataSource
 import com.example.youtube_month6.core.network.networkModule
 
 val koinModules = listOf(
